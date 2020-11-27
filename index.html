@@ -4,47 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>抽奖</title>
+    <title>抽签</title>
 </head>
 
 <body>
-    <div class="main">
-        <p>抽签</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>样例</th>
-                    <th>数量</th>
-                    <th>结果</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <span class="notice"></span>
-        <div class="list">
-            <span class="intro">待抽签结果列表</span>
-            <span class="result-list">无</span>
+    <div class="middle">
+        <div class="main">
+            <p>小抽签 <a href="#" class="switch">显示选项？</a></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>样例</th>
+                        <th>数量</th>
+                        <th>中签</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="notice">
+                <span>Notice:</span>
+                <span class="notice-content"></span>
+            </div>
+            <div class="list">
+                <span class="intro">待抽签结果列表</span>
+                <span class="result-list">无</span>
+            </div>
         </div>
-        <div class="single-box" id="add-item">
-            <span class="box-name">新增样例：</span>
-            <input>
-            <button>添加</button>
-        </div>
-        <div class="single-box" id="add-result">
-            <span class="box-name">新增结果：</span>
-            <input>
-            <button>添加</button>
-        </div>
-        <div class="single-box" id="option">
-            <button id="submit">开始抽签</button>
-            <button id="clear">清空</button>
+        <div class="option">
+            <div class="single-box" id="add-item">
+                <span class="box-name">新增样例：</span>
+                <input>
+                <button>添加</button>
+            </div>
+            <div class="single-box" id="add-result">
+                <span class="box-name">新增结果：</span>
+                <input>
+                <button>添加</button>
+            </div>
+            <div class="single-box" id="option">
+                <button id="submit">开始抽签</button>
+                <button id="clear">清空</button>
+            </div>
         </div>
     </div>
-
     <script src="./main.js"></script>
-    <!-- <script src="./submit.js"></script> -->
 </body>
 
 </html>

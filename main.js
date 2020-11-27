@@ -2,14 +2,15 @@ const addItemBtn = document.getElementById('add-item').getElementsByTagName('but
 const addResultBtn = document.getElementById('add-result').getElementsByTagName('button')[0];
 const addItemInput = document.getElementById('add-item').getElementsByTagName('input')[0];
 const addResultInput = document.getElementById('add-result').getElementsByTagName('input')[0];
-const notice = document.getElementsByClassName('notice')[0];
+const notice = document.getElementsByClassName('notice-content')[0];
+const noticeDiv = document.getElementsByClassName('notice')[0];
 const tbody = document.getElementsByTagName("tbody")[0];
 const submitBtn = document.getElementById("submit");
 const clearBtn = document.getElementById("clear");
 const result = document.getElementsByClassName('result');
 const resultList = document.getElementsByClassName('result-list')[0];
-
-
+const switchBtn = document.getElementsByClassName('switch')[0];
+const option = document.getElementsByClassName('option')[0];
 delBtnIcon = "<button class='del'></button>";
 plusBtnIcon = "<button class='plus'></button>";
 minusBtnIcon = "<button class='minus'></button>";
@@ -17,9 +18,50 @@ rCnt = 0; // currency row count
 resultCnt = 0;
 string = "";
 resultArry = new Array();
+allowStart = 0;
+optionDisplay = 0;
+timerId = 0;
 
-function clearResult() {
+function showBtn() {
+    delBtn = document.getElementsByClassName('del');
+    plusBtn = document.getElementsByClassName('plus');
+    minusBtn = document.getElementsByClassName('minus');
     for (var i = 0; i < rCnt; i++) {
+        delBtn[i].style.display = "inline-block";
+        plusBtn[i].style.display = "inline-block";
+        minusBtn[i].style.display = "inline-block";
+    }
+}
+function hideBtn() {
+    delBtn = document.getElementsByClassName('del');
+    plusBtn = document.getElementsByClassName('plus');
+    minusBtn = document.getElementsByClassName('minus');
+    for (var i = 0; i < rCnt; i++) {
+        delBtn[i].style.display = "none";
+        plusBtn[i].style.display = "none";
+        minusBtn[i].style.display = "none";
+    }
+}
+function showOption() {
+    option.style.display = "block";
+    switchBtn.innerHTML = "隐藏选项？";
+}
+function hideOption() {
+    option.style.display = "none";
+    switchBtn.innerHTML = "显示选项？";
+}
+function timerNotice(value, color) {
+    clearTimeout(timerId);
+    noticeDiv.style.display = "block";
+    notice.innerHTML = value;
+    notice.style.color = color;
+    timerId = setTimeout(closeNotice, 4000);
+}
+function closeNotice() {
+    noticeDiv.style.display = "none";
+}
+function clearResult() {
+    for (var i = 0; i < resultCnt; i++) {
         result[i].innerHTML = "";
     }
 }
@@ -27,33 +69,38 @@ function clearResultInput() {
     addResultInput.value = "";
 }
 function clearResultList() {
-    for (var i = 0; i < rCnt; i++) {
-        resultList.innerHTML = "";
-    }
+    resultList.innerHTML = "";
     resultArry = {};
     resultCnt = 0;
 }
 function clearNotice() {
-    notice.innerHTML = "";
+    notice.style.color = "black";
+    notice.innerHTML = "无";
 }
 function addCnt(obj) {
     clearNotice();
     var i = obj.parentNode.getElementsByTagName('span')[0];
-    // cnt = document.getElementsByClassName('count')[i];
     var tmp = parseInt(i.innerHTML) + 1;
     i.innerHTML = tmp;
 }
 function minusCnt(obj) {
     clearNotice();
     var i = obj.parentNode.getElementsByTagName('span')[0];
-    // cnt = document.getElementsByClassName('count')[i];
     var tmp = parseInt(i.innerHTML) - 1;
     if (tmp < 0) {
-        notice.style.color = "red";
-        notice.innerHTML = "数量不能为负";
+        timerNotice("数量不能为负", "red");
     }
     else
         i.innerHTML = tmp;
+}
+function delTableRowLast() {
+    tbody.deleteRow(rCnt - 1);
+    rCnt--;
+}
+function delTableRowAll() {
+    while (rCnt != 0) {
+        delTableRowLast();
+    }
 }
 function delTableRow(obj) {
     clearNotice();
@@ -61,18 +108,18 @@ function delTableRow(obj) {
     tbody.deleteRow(i - 1);
     rCnt--;
     // 提示
-    notice.style.color = "green";
-    notice.innerHTML = "样例删除成功";
+    timerNotice("样例删除成功", "green");
 }
-function addTableRow(req) {
+function addTableRow(obj) {
     clearNotice();
     if (rCnt >= 6) {
-        notice.style.color = "red";
-        notice.innerHTML = "数量超出限制";
+        timerNotice("数量超出限制", "red");
     }
-    else if (req.length == 0) {
-        notice.style.color = "red";
-        notice.innerHTML = "内容不能为空";
+    else if (obj.length == 0) {
+        timerNotice("内容不能为空", "red");
+    }
+    else if (obj.length > 6) {
+        timerNotice("文本长度超过限制(6)", "red");
     }
     else {
         // 定义当前行 // cell是列数
@@ -87,8 +134,8 @@ function addTableRow(req) {
         cell1.className = "count";
         cell2.className = "result";
         // 定义按钮内容
-        cell0.innerHTML = req + delBtnIcon;
-        cell1.innerHTML = "<span>" + 2 + "</span>" + plusBtnIcon + minusBtnIcon;
+        cell0.innerHTML = obj + delBtnIcon;
+        cell1.innerHTML = "<span>" + 0 + "</span>" + plusBtnIcon + minusBtnIcon;
         cell2.innerHTML = "暂无";
         // 定义按钮事件
         var delBtn = document.getElementsByClassName("item")[rCnt].getElementsByTagName("button")[0];
@@ -97,9 +144,11 @@ function addTableRow(req) {
         delBtn.onclick = function () { delTableRow(this) };
         plusBtn.onclick = function () { addCnt(this) };
         minusBtn.onclick = function () { minusCnt(this) };
+        delBtn.style.display = "inline-block";
+        plusBtn.style.display = "inline-block";
+        minusBtn.style.display = "inline-block";
         // 提示
-        notice.style.color = "green";
-        notice.innerHTML = "第" + (rCnt + 1) + "行添加成功";
+        timerNotice("第" + (rCnt + 1) + "行添加成功", "green");
         // 数量加一
         rCnt++;
         // 清空输入框
@@ -107,20 +156,25 @@ function addTableRow(req) {
     }
 }
 function converReq() {
+    allowStart = 1;
     string = "";
+    var countTol = 0;
     if (rCnt == 0) {
-        notice.style.color = "red";
-        notice.innerHTML = "不能没有数据";
-        return 0;
+        timerNotice("不能没有数据", "red");
+        allowStart = 0;
     }
     for (var i = 0; i < rCnt; i++) {
         var span = tbody.getElementsByClassName('count')[i].getElementsByTagName('span')[0];
         if (span.textContent == "0") {
-            notice.style.color = "red";
-            notice.innerHTML = "数量不能为0";
-            return 0;
+            timerNotice("数量不能为0", "red");
+            allowStart = 0;
         }
+        countTol += parseInt(span.textContent);
         string = string + "arr" + i + "=" + span.textContent + "&";
+    }
+    if (countTol != resultCnt) {
+        timerNotice("请添加与总数量同样多的结果", "red");
+        allowStart = 0;
     }
 }
 function submitGet() {
@@ -131,13 +185,10 @@ function submitGet() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                notice.style.color = "green";
-                notice.innerHTML = "正在处理";
-                notice.style.color = "black";
-                notice.innerHTML = xhr.responseText;
+                timerNotice("正在处理", "green");
+                timerNotice(xhr.responseText, "black");
                 outputRes();
-                notice.style.color = "green";
-                notice.innerHTML = "抽签完成";
+                timerNotice("抽签完成", "green");
             }
         }
     }
@@ -145,7 +196,6 @@ function submitGet() {
 function outputRes() {
     clearResult();
     string = notice.innerHTML;
-    console.log("0")
     for (var i = 0, cnt = 1; i < rCnt; i++) {
         var count = document.getElementsByClassName('count')[i].getElementsByTagName('span')[0].textContent;
         for (var j = 0; j < count; j++) {
@@ -159,28 +209,59 @@ function outputRes() {
 }
 function submit() {
     converReq();
-    submitGet();
+    if (allowStart == 1)
+        submitGet();
 }
 function addResult() {
-    var input = addResultInput.value;
+    if (addResultInput.value.length == 0) {
+        timerNotice("请输入一个非空值", "red");
+        return 0;
+    }
+    else if (addResultInput.value.length > 6) {
+        timerNotice("文本长度超过限制(6)", "red");
+        return 0;
+    }
     if (resultCnt == 0) {
         clearResultList()
-        resultList.innerHTML = resultList.innerHTML + input;
+        resultList.innerHTML = resultList.innerHTML + addResultInput.value;
     }
     else
-        resultList.innerHTML = resultList.innerHTML + "、" + input;
-    resultArry[resultCnt] = input;
+        resultList.innerHTML = resultList.innerHTML + "、" + addResultInput.value;
+    resultArry[resultCnt] = addResultInput.value;
     resultCnt++;
-    clearResultInput()
+    timerNotice("添加成功", "green");
+    clearResultInput();
 }
-addItemBtn.addEventListener('click', function () { addTableRow(addItemInput.value) });
-submitBtn.addEventListener('click', function () { submit() });
-addResultBtn.addEventListener('click', function () { addResult(); });
+function clear() {
+    delTableRowAll();
+    clearResult();
+    clearResultInput();
+    clearResultList();
+    clearNotice();
+    closeNotice();
+    timerNotice("全部删除成功", "green");
+}
+function switchDisplay() {
+    if (optionDisplay == 0) {
+        showOption();
+        showBtn();
+        optionDisplay = 1;
+    }
+    else {
+        hideOption();
+        hideBtn();
+        optionDisplay = 0;
+    }
+}
 
+addItemBtn.onclick = function () { addTableRow(addItemInput.value) };
+submitBtn.onclick = function () { submit() };
+addResultBtn.onclick = function () { addResult(); };
+clearBtn.onclick = function () { clear(); };
+switchBtn.onclick = function () { switchDisplay(); }
 
 // For Test
-function test() {
-    for (var i = 0; i < 3; i++) { addTableRow(i); }
-}
-test();
-
+// function test() {
+//     for (var i = 0; i < 3; i++) { addTableRow(i); }
+// }
+// test();

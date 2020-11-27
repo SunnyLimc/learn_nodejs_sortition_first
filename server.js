@@ -6,8 +6,6 @@ const app = express();
 
 function randomSort(a, b) { return Math.random() > 0.5 ? -1 : 1; }
 
-
-
 app.get('/submit', (req, res) => {
 
     // 设置响应头  设置允许跨域
