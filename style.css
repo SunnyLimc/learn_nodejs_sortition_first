@@ -1,0 +1,153 @@
+* {
+    font-family: consalas;
+    margin: 0;
+}
+/* main body */
+body {
+    background-color: cornsilk;
+}
+body .main {
+    top: 20%;
+    width: 500px;
+    height: 100%;
+    margin: 8% auto;
+    background-color: white;
+    text-align: center;
+}
+body .main p {
+    font-size: 24px;
+    padding: 4%;
+    padding-bottom: 0;
+    text-align: center;
+}
+
+/* table */
+/* for table decoration */
+body .main table {
+    margin: 20px auto 5px auto;
+    width: 80%;
+    padding: 0;
+}
+body .main table th {
+    border: 2px solid;
+    padding: 15px;
+    background: #f5f5f5;
+}
+body .main table td {
+    border: 1px solid;
+    padding: 15px;
+    text-align: center;
+}
+body .main table td:hover {
+    background: #f5f5f5;
+}
+/* for button decoration */
+body .main table .del {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0;
+    border: 0;
+    outline: none;
+    width: 10px;
+    height: 10px;
+    margin-left: 8px;
+    background-image: url(./res/del.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+body .main table .del:hover {
+    cursor: pointer;
+}
+body .main table .plus {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0;
+    border: 0;
+    outline: none;
+    width: 15px;
+    height: 15px;
+    margin-left: 8px;
+    background-image: url(./res/plus.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+body .main table .plus:hover {
+    cursor: pointer;
+}
+body .main table .minus {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0;
+    border: 0;
+    outline: none;
+    width: 15px;
+    height: 15px;
+    margin-left: 4px;
+    background-image: url(./res/minus.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+body .main table .minus:hover {
+    cursor: pointer;
+}
+
+body .single-box .box-name {
+    font-size: 16px;
+    padding: 5% 0 2% 0;
+    vertical-align: bottom;
+}
+body .notice {
+    font-size: 10px;
+}
+
+body .list {
+    padding-top: 20px;
+}
+body .intro {
+    font-size: 12px;
+    font-weight: bolder;
+}
+body .result-list {
+    display: block;
+    font-size: 10px;
+    font-style: italic;
+}
+
+body .single-box {
+    width: 75%;
+    margin: 10px auto;
+    display: block;
+}
+/* input */
+body .single-box input {
+    display: inline-block;
+    width: 40%;
+    outline: none;
+    border: 0;
+    border-bottom: 2px solid silver;
+}
+body .single-box input:focus {
+    outline: none;
+    border-bottom: 2px solid black;
+}
+/* button */
+body .single-box button {
+    display: inline-block;
+    height: 18px;
+    text-align: center;
+    line-height: 1px;
+    background: white;
+    border: 1px solid;
+    border-radius: 10px;
+    color: slategray;
+    outline: 0;
+    vertical-align: bottom;
+}
+body .single-box button:hover {
+    background: #e0e0e0;
+    cursor: pointer;
+}
+body .single-box button:active {
+    background-color: #f5f5f5;
+    cursor: auto;
+}
