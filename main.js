@@ -61,7 +61,7 @@ function closeNotice() {
     noticeDiv.style.display = "none";
 }
 function clearResult() {
-    for (var i = 0; i < resultCnt; i++) {
+    for (var i = 0; i < rCnt; i++) {
         result[i].innerHTML = "";
     }
 }
@@ -70,6 +70,9 @@ function clearResultInput() {
 }
 function clearResultList() {
     resultList.innerHTML = "";
+}
+function clearResultListN() {
+    resultList.innerHTML = "无";
     resultArry = {};
     resultCnt = 0;
 }
@@ -236,7 +239,7 @@ function clear() {
     delTableRowAll();
     clearResult();
     clearResultInput();
-    clearResultList();
+    clearResultListN();
     clearNotice();
     closeNotice();
     timerNotice("全部删除成功", "green");
