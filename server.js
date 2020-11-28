@@ -11,9 +11,6 @@ app.get('/submit', (req, res) => {
     // 设置响应头  设置允许跨域
     res.setHeader('Access-Control-Allow-Origin', '*')
     // 处理
-    // for (let i in req.query) {
-    // sum += i;
-    // }
     var sum = 0;
     arry = new Array();
     obj = new Object();
