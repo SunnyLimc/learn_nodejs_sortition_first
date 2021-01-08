@@ -26,4 +26,4 @@
 
 -   把所有数据发送至后端，让后端进行数据的处理并持久化储存，前端只做数据的展示
 
-# 这个写得太水了，可以去看(隔壁大佬写的)[https://github.com/C1manyd/A_simple_lottery_draw_website]
+## 这个写得太水了，可以去看<a href="https://github.com/C1manyd/A_simple_lottery_draw_website">隔壁大佬写的</a>
